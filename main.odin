@@ -5,10 +5,10 @@ import "core:strconv"
 import "core:strings"
 import rl "vendor:raylib"
 
-
 main :: proc() {
 	rl.InitWindow(500, 300, "Dices")
 	defer rl.CloseWindow()
+
 
 	rl.SetTargetFPS(60)
 
@@ -17,12 +17,9 @@ main :: proc() {
 		defer rl.EndDrawing()
 		rl.ClearBackground({255, 255, 255, 255})
 
-		custom_random_generator()
-		draw_random_generator()
-		update_windows_handler()
+		draw_tab()
+		switch_tab()
 
-		reset_random_generator()
-		show_debug_collision_region()
 		show_info()
 	}
 }
