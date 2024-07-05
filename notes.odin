@@ -1,9 +1,11 @@
 package main
 
 import "core:fmt"
+import "core:math/rand"
+import "core:strconv"
+import "core:strings"
 import rl "vendor:raylib"
 
-notes_output: cstring
 
 notes_struct :: struct {
 	note:         cstring,
@@ -24,15 +26,17 @@ notes := [12]notes_struct {
 	{"B", true},
 }
 
+notes_output: cstring
+
 note_count: i32 = 8
-required_note_count: i32
+
 
 draw_notes_generator :: proc() {
 	rl.DrawText(
 		notes_output,
-		(rl.GetScreenWidth() - rl.MeasureText(notes_output, 96)) / 2,
+		(rl.GetScreenWidth() - rl.MeasureText(notes_output, 60)) / 2,
 		40,
-		96,
+		60,
 		{0, 0, 0, 255},
 	)
 
@@ -49,17 +53,23 @@ draw_notes_generator :: proc() {
 	rl.GuiCheckBox({240, 230, 20, 20}, nil, &notes[10].is_contained)
 	rl.GuiCheckBox({260, 250, 20, 20}, nil, &notes[11].is_contained)
 
-	required_note_count = rl.GuiSpinner(
-		{350, 220, 100, 20},
-		"note count",
-		&note_count,
-		1,
-		16,
-		false,
-	)
+	rl.GuiSpinner({350, 220, 100, 20}, "note count", &note_count, 1, 16, false)
+
+	contained_notes: [dynamic]cstring
+	notes_array: [dynamic]string
+
 	if rl.GuiButton({350, 250, 100, 20}, "generate") {
-		count := 0
-		for auto_cast count < required_note_count {
+		for i in notes {
+			if i.is_contained {
+				append(&contained_notes, i.note)
+			}
 		}
+		for i in 0 ..< note_count {
+			append(&notes_array, auto_cast rand.choice(contained_notes[:]), " ")
+		}
+		notes_output = strings.clone_to_cstring(strings.concatenate(notes_array[:]))
+	}
+
+	if rl.GuiButton({320, 250, 20, 20}, "#b") {
 	}
 }
