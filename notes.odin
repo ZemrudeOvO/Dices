@@ -8,37 +8,32 @@ import rl "vendor:raylib"
 
 
 notes_struct :: struct {
-	note:         cstring,
+	sharp:        cstring,
+	flat:         cstring,
 	is_contained: bool,
 }
 notes := [12]notes_struct {
-	{"C", true},
-	{"C#", true},
-	{"D", true},
-	{"D#", true},
-	{"E", true},
-	{"F", true},
-	{"F#", true},
-	{"G", true},
-	{"G#", true},
-	{"A", true},
-	{"A#", true},
-	{"B", true},
+	{"C", "C", true},
+	{"C#", "Db", true},
+	{"D", "D", true},
+	{"D#", "Eb", true},
+	{"E", "E", true},
+	{"F", "F", true},
+	{"F#", "Gb", true},
+	{"G", "G", true},
+	{"G#", "Ab", true},
+	{"A", "A", true},
+	{"A#", "Bb", true},
+	{"B", "B", true},
 }
 
-notes_output: cstring
+output_sharp, output_flat: cstring
 
 note_count: i32 = 8
 
+is_sharp: bool
 
 draw_notes_generator :: proc() {
-	rl.DrawText(
-		notes_output,
-		(rl.GetScreenWidth() - rl.MeasureText(notes_output, 60)) / 2,
-		40,
-		60,
-		{0, 0, 0, 255},
-	)
 
 	rl.GuiCheckBox({40, 250, 20, 20}, nil, &notes[0].is_contained)
 	rl.GuiCheckBox({60, 230, 20, 20}, nil, &notes[1].is_contained)
@@ -55,21 +50,46 @@ draw_notes_generator :: proc() {
 
 	rl.GuiSpinner({350, 220, 100, 20}, "note count", &note_count, 1, 16, false)
 
-	contained_notes: [dynamic]cstring
-	notes_array: [dynamic]string
+	contained_sharp, contained_flat: [dynamic]cstring
+	sharp_array, flat_array: [dynamic]string
 
 	if rl.GuiButton({350, 250, 100, 20}, "generate") {
 		for i in notes {
 			if i.is_contained {
-				append(&contained_notes, i.note)
+				append(&contained_sharp, i.sharp)
+				append(&contained_flat, i.flat)
 			}
 		}
+
+		index := 0
+
 		for i in 0 ..< note_count {
-			append(&notes_array, auto_cast rand.choice(contained_notes[:]), " ")
+			if len(contained_sharp) != 0 {
+
+				index = rand.int_max(len(contained_sharp))
+				append(&sharp_array, auto_cast contained_sharp[index])
+				append(&flat_array, auto_cast contained_flat[index])
+
+				if i % 4 == 3 {
+					append(&sharp_array, "\n\n\n")
+					append(&flat_array, "\n\n\n")
+				} else {
+					append(&sharp_array, " ")
+					append(&flat_array, " ")
+				}
+			}
 		}
-		notes_output = strings.clone_to_cstring(strings.concatenate(notes_array[:]))
+		output_sharp = strings.clone_to_cstring(strings.concatenate(sharp_array[:]))
+		output_flat = strings.clone_to_cstring(strings.concatenate(flat_array[:]))
 	}
 
-	if rl.GuiButton({320, 250, 20, 20}, "#b") {
-	}
+	is_toggle_sharp_state := rl.GuiToggle({320, 250, 20, 20}, is_sharp ? "#" : "b", &is_sharp)
+
+	rl.DrawText(
+		is_sharp ? output_sharp : output_flat,
+		(rl.GetScreenWidth() - rl.MeasureText(is_sharp ? output_sharp : output_flat, 36)) / 2,
+		40,
+		36,
+		{0, 0, 0, 255},
+	)
 }
