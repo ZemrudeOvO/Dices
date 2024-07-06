@@ -5,11 +5,15 @@ import "core:strconv"
 import "core:strings"
 import rl "vendor:raylib"
 
+@(private = "file")
 random_value: cstring
 
 buf: [8]byte
 
+@(private = "file")
 is_drag := false
+
+@(private = "file")
 window_handle_rect: rl.Rectangle
 
 draw_random_generator :: proc() {

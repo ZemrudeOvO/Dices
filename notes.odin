@@ -7,11 +7,14 @@ import "core:strings"
 import rl "vendor:raylib"
 
 
+@(private = "file")
 notes_struct :: struct {
 	sharp:        cstring,
 	flat:         cstring,
 	is_contained: bool,
 }
+
+@(private = "file")
 notes := [12]notes_struct {
 	{"C", "C", true},
 	{"C#", "Db", true},
@@ -27,10 +30,13 @@ notes := [12]notes_struct {
 	{"B", "B", true},
 }
 
+@(private = "file")
 output_sharp, output_flat: cstring
 
+@(private = "file")
 note_count: i32 = 8
 
+@(private = "file")
 is_sharp: bool
 
 draw_notes_generator :: proc() {
