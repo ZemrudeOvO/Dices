@@ -20,9 +20,9 @@ multiple_dices_value: cstring
 
 draw_multiple_dices_generator :: proc() {
 
-	rl.GuiSpinner({100, 200, 100, 20}, "quantity (a)", &quantity, 0, 16, false)
-	rl.GuiSpinner({100, 230, 100, 20}, "sides (b)", &sides, 2, 100, false)
-	rl.GuiSpinner({100, 260, 100, 20}, "fixed (c)", &fixed, -100, 100, false)
+	rl.GuiSpinner({100, 200, 100, 20}, "quantity (a) ", &quantity, 0, 16, false)
+	rl.GuiSpinner({100, 230, 100, 20}, "sides (b) ", &sides, 2, 100, false)
+	rl.GuiSpinner({100, 260, 100, 20}, "fixed (c) ", &fixed, -100, 100, false)
 
 	rl.GuiLabel({220, 230, 100, 20}, "aDb+c")
 

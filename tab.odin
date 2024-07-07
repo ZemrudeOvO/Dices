@@ -18,6 +18,8 @@ switch_tab :: proc() {
 	case 2:
 		draw_notes_generator()
 	case 3:
+		draw_chords_generator()
+	case 4:
 
 	case: // default
 

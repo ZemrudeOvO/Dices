@@ -9,7 +9,6 @@ main :: proc() {
 	rl.InitWindow(500, 300, "Dices")
 	defer rl.CloseWindow()
 
-
 	rl.SetTargetFPS(60)
 
 	for !rl.WindowShouldClose() {
