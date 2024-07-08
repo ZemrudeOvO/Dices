@@ -8,6 +8,7 @@ import rl "vendor:raylib"
 @(private = "file")
 random_value: cstring
 
+@(private = "file")
 buf: [8]byte
 
 @(private = "file")

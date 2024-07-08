@@ -18,6 +18,9 @@ fixed: i32 = 0
 @(private = "file")
 multiple_dices_value: cstring
 
+@(private = "file")
+buf: [8]byte
+
 draw_multiple_dices_generator :: proc() {
 
 	rl.GuiSpinner({100, 200, 100, 20}, "quantity (a) ", &quantity, 0, 16, false)

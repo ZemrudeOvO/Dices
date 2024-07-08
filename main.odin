@@ -5,6 +5,8 @@ import "core:strconv"
 import "core:strings"
 import rl "vendor:raylib"
 
+unifont: rl.Font
+
 main :: proc() {
 	rl.InitWindow(500, 300, "Dices")
 	defer rl.CloseWindow()
