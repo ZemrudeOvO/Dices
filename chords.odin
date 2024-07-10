@@ -2,7 +2,35 @@ package main
 
 import "core:c"
 import "core:fmt"
+import "core:math/rand"
+import "core:strings"
 import rl "vendor:raylib"
+
+@(private = "file")
+font_size: c.int = 24
+
+@(private = "file")
+notes_struct :: struct {
+	sharp:        cstring,
+	flat:         cstring,
+	is_contained: bool,
+}
+
+@(private = "file")
+notes := [12]notes_struct {
+	{"C", "C", true},
+	{"C#", "Db", true},
+	{"D", "D", true},
+	{"D#", "Eb", true},
+	{"E", "E", true},
+	{"F", "F", true},
+	{"F#", "Gb", true},
+	{"G", "G", true},
+	{"G#", "Ab", true},
+	{"A", "A", true},
+	{"A#", "Bb", true},
+	{"B", "B", true},
+}
 
 @(private = "file")
 chords_struct :: struct {
@@ -12,17 +40,17 @@ chords_struct :: struct {
 
 @(private = "file")
 chords := [11]chords_struct {
-	{"", false},
-	{"m", false},
-	{"aug", false},
-	{"dim", false},
-	{"sus2", false},
-	{"maj7", false},
-	{"m7", false},
-	{"7", false},
-	{"7sus", false},
-	{"m7(b5)", false},
-	{"dim7", false},
+	{"", true},
+	{"m", true},
+	{"aug", true},
+	{"dim", true},
+	{"sus2", true},
+	{"maj7", true},
+	{"m7", true},
+	{"7", true},
+	{"7sus", true},
+	{"m7(b5)", true},
+	{"dim7", true},
 }
 
 @(private = "file")
@@ -33,6 +61,9 @@ is_sharp: bool
 
 @(private = "file")
 is_toggle_sharp_state: c.int
+
+@(private = "file")
+output_sharp, output_flat: [dynamic]string
 
 draw_chords_generator :: proc() {
 	rl.GuiToggle({50, 220, 40, 20}, "major", &chords[0].is_contained) // C
@@ -51,7 +82,76 @@ draw_chords_generator :: proc() {
 
 	is_toggle_sharp_state = rl.GuiToggle({370, 250, 20, 20}, is_sharp ? "#" : "b", &is_sharp)
 
-	if rl.GuiButton({400, 250, 70, 20}, "generate") {
+	contained_sharp, contained_flat: [dynamic]cstring
+	sharp_array, flat_array: [dynamic]string
 
+	contained_chord: [dynamic]cstring
+	chord_array: [dynamic]string
+
+	if rl.GuiButton({400, 250, 70, 20}, "generate") {
+		clear_dynamic_array(&output_sharp)
+		clear_dynamic_array(&output_flat)
+
+		for i in notes {
+			append(&contained_sharp, i.sharp)
+			append(&contained_flat, i.flat)
+		}
+
+		jndex := 0
+
+		for i in 0 ..< chord_count {
+			jndex = rand.int_max(len(contained_sharp))
+			append(&sharp_array, auto_cast contained_sharp[jndex])
+			append(&flat_array, auto_cast contained_flat[jndex])
+		}
+
+		for i in chords {
+			if i.is_contained {
+				append(&contained_chord, i.name)
+			}
+		}
+
+		index := 0
+
+		for i in 0 ..< chord_count {
+			if len(contained_chord) != 0 {
+				index = rand.int_max(len(contained_chord))
+				append(&chord_array, auto_cast contained_chord[index])
+			}
+		}
+
+		for i in 0 ..< chord_count {
+			if len(contained_chord) != 0 {
+				append(&output_sharp, sharp_array[i])
+				append(&output_sharp, chord_array[i])
+				append(&output_flat, flat_array[i])
+				append(&output_flat, chord_array[i])
+
+				if i % 4 == 3 {
+					append(&output_sharp, "\n\n\n")
+					append(&output_flat, "\n\n\n")
+				} else {
+					append(&output_sharp, " ")
+					append(&output_flat, " ")
+				}
+			}
+		}
 	}
+
+	rl.DrawText(
+		is_sharp \
+		? strings.clone_to_cstring(strings.concatenate(output_sharp[:])) \
+		: strings.clone_to_cstring(strings.concatenate(output_flat[:])),
+		(rl.GetScreenWidth() -
+			rl.MeasureText(
+				is_sharp \
+				? strings.clone_to_cstring(strings.concatenate(output_sharp[:])) \
+				: strings.clone_to_cstring(strings.concatenate(output_flat[:])),
+				font_size,
+			)) /
+		2,
+		40,
+		font_size,
+		{0, 0, 0, 255},
+	)
 }

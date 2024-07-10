@@ -20,7 +20,7 @@ switch_tab :: proc() {
 	case 3:
 		draw_chords_generator()
 	case 4:
-
+		draw_misc_generator()
 	case: // default
 
 	}

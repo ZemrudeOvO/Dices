@@ -7,6 +7,8 @@ import "core:strconv"
 import "core:strings"
 import rl "vendor:raylib"
 
+@(private = "file")
+font_size: c.int = 36
 
 @(private = "file")
 notes_struct :: struct {
@@ -97,9 +99,10 @@ draw_notes_generator :: proc() {
 
 	rl.DrawText(
 		is_sharp ? output_sharp : output_flat,
-		(rl.GetScreenWidth() - rl.MeasureText(is_sharp ? output_sharp : output_flat, 36)) / 2,
+		(rl.GetScreenWidth() - rl.MeasureText(is_sharp ? output_sharp : output_flat, font_size)) /
+		2,
 		40,
-		36,
+		font_size,
 		{0, 0, 0, 255},
 	)
 }
