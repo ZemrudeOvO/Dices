@@ -1,5 +1,6 @@
 package main
 
+import "core:c"
 import "core:fmt"
 import "core:math/rand"
 import "core:strconv"
@@ -38,6 +39,9 @@ note_count: i32 = 8
 
 @(private = "file")
 is_sharp: bool
+
+@(private = "file")
+is_toggle_sharp_state: c.int
 
 draw_notes_generator :: proc() {
 
@@ -89,7 +93,7 @@ draw_notes_generator :: proc() {
 		output_flat = strings.clone_to_cstring(strings.concatenate(flat_array[:]))
 	}
 
-	is_toggle_sharp_state := rl.GuiToggle({320, 250, 20, 20}, is_sharp ? "#" : "b", &is_sharp)
+	is_toggle_sharp_state = rl.GuiToggle({320, 250, 20, 20}, is_sharp ? "#" : "b", &is_sharp)
 
 	rl.DrawText(
 		is_sharp ? output_sharp : output_flat,

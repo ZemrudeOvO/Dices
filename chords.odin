@@ -1,5 +1,6 @@
 package main
 
+import "core:c"
 import "core:fmt"
 import rl "vendor:raylib"
 
@@ -27,6 +28,12 @@ chords := [11]chords_struct {
 @(private = "file")
 chord_count: i32 = 8
 
+@(private = "file")
+is_sharp: bool
+
+@(private = "file")
+is_toggle_sharp_state: c.int
+
 draw_chords_generator :: proc() {
 	rl.GuiToggle({50, 220, 40, 20}, "major", &chords[0].is_contained) // C
 	rl.GuiToggle({100, 220, 40, 20}, "minor", &chords[1].is_contained) // Cm
@@ -41,4 +48,10 @@ draw_chords_generator :: proc() {
 	rl.GuiToggle({300, 250, 40, 20}, "dim7", &chords[10].is_contained) // Cdim7
 
 	rl.GuiSpinner({370, 220, 100, 20}, "chord count", &chord_count, 1, 16, false)
+
+	is_toggle_sharp_state = rl.GuiToggle({370, 250, 20, 20}, is_sharp ? "#" : "b", &is_sharp)
+
+	if rl.GuiButton({400, 250, 70, 20}, "generate") {
+
+	}
 }
