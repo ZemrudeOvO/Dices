@@ -6,7 +6,7 @@ import rl "vendor:raylib"
 current_tab: i32 = 0
 
 draw_tab :: proc() {
-	rl.GuiToggleGroup({5, 5, 60, 20}, "Dice;Multiple;Notes;Chords;Scales", &current_tab)
+	rl.GuiToggleGroup({5, 5, 60, 20}, "Dice;Multiple;Notes;Chords;Misc", &current_tab)
 }
 
 switch_tab :: proc() {
