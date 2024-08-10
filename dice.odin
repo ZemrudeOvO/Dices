@@ -19,12 +19,27 @@ window_handle_rect: rl.Rectangle
 
 draw_random_generator :: proc() {
 
+	/*
 	rl.DrawText(
 		random_value,
 		(rl.GetScreenWidth() - rl.MeasureText(random_value, 96)) / 2,
 		40,
 		96,
 		{0, 0, 0, 255},
+	)
+		*/
+	rl.DrawTextEx(
+		font,
+		random_value,
+		{
+			auto_cast (rl.GetScreenWidth() -
+				auto_cast rl.MeasureTextEx(font, random_value, 96, 1)[0]) /
+			2,
+			40,
+		},
+		96,
+		1,
+		rl.BLACK,
 	)
 
 	rl.GuiGroupBox({125, 160, 250, 130}, "Random")

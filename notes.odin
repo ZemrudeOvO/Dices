@@ -97,6 +97,7 @@ draw_notes_generator :: proc() {
 
 	is_toggle_sharp_state = rl.GuiToggle({320, 250, 20, 20}, is_sharp ? "#" : "b", &is_sharp)
 
+	/*
 	rl.DrawText(
 		is_sharp ? output_sharp : output_flat,
 		(rl.GetScreenWidth() - rl.MeasureText(is_sharp ? output_sharp : output_flat, font_size)) /
@@ -104,5 +105,19 @@ draw_notes_generator :: proc() {
 		40,
 		font_size,
 		{0, 0, 0, 255},
+	)
+	*/
+	rl.DrawTextEx(
+		font,
+		is_sharp ? output_sharp : output_flat,
+		{
+			auto_cast (rl.GetScreenWidth() -
+				auto_cast rl.MeasureTextEx(font, is_sharp ? output_sharp : output_flat, auto_cast font_size, 1)[0]) /
+			2,
+			40,
+		},
+		auto_cast font_size,
+		1,
+		rl.BLACK,
 	)
 }

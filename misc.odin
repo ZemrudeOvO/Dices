@@ -94,6 +94,7 @@ draw_misc_generator :: proc() {
 		tempo = rl.GetRandomValue(50, 200)
 	}
 
+	/*
 	rl.DrawText(
 		is_sharp \
 		? strings.clone_to_cstring(strings.concatenate(key_sharp[:])) \
@@ -111,5 +112,26 @@ draw_misc_generator :: proc() {
 		230,
 		30,
 		{0, 0, 0, 255},
+	)
+	*/
+	rl.DrawTextEx(
+		font,
+		is_sharp \
+		? strings.clone_to_cstring(strings.concatenate(key_sharp[:])) \
+		: strings.clone_to_cstring(strings.concatenate(key_flat[:])),
+		{50, 50},
+		30,
+		1,
+		rl.BLACK,
+	)
+	rl.DrawTextEx(font, time, {50, 110}, 30, 1, rl.BLACK)
+	rl.DrawTextEx(font, mode, {50, 170}, 30, 1, rl.BLACK)
+	rl.DrawTextEx(
+		font,
+		is_first_time ? "" : strings.clone_to_cstring(strconv.itoa(buf[:], auto_cast tempo)),
+		{50, 230},
+		30,
+		1,
+		rl.BLACK,
 	)
 }

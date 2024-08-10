@@ -138,6 +138,7 @@ draw_chords_generator :: proc() {
 		}
 	}
 
+	/*
 	rl.DrawText(
 		is_sharp \
 		? strings.clone_to_cstring(strings.concatenate(output_sharp[:])) \
@@ -153,5 +154,21 @@ draw_chords_generator :: proc() {
 		40,
 		font_size,
 		{0, 0, 0, 255},
+	)
+	*/
+	rl.DrawTextEx(
+		font,
+		is_sharp \
+		? strings.clone_to_cstring(strings.concatenate(output_sharp[:])) \
+		: strings.clone_to_cstring(strings.concatenate(output_flat[:])),
+		{
+			(auto_cast rl.GetScreenWidth() -
+				rl.MeasureTextEx(font, is_sharp ? strings.clone_to_cstring(strings.concatenate(output_sharp[:])) : strings.clone_to_cstring(strings.concatenate(output_flat[:])), auto_cast font_size, 1)[0]) /
+			2,
+			40,
+		},
+		auto_cast font_size,
+		1,
+		rl.BLACK,
 	)
 }

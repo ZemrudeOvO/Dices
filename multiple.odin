@@ -29,12 +29,27 @@ draw_multiple_dices_generator :: proc() {
 
 	rl.GuiLabel({220, 230, 100, 20}, "aDb+c")
 
+	/*
 	rl.DrawText(
 		multiple_dices_value,
 		(rl.GetScreenWidth() - rl.MeasureText(multiple_dices_value, 96)) / 2,
 		40,
 		96,
 		{0, 0, 0, 255},
+	)
+	*/
+	rl.DrawTextEx(
+		font,
+		multiple_dices_value,
+		{
+			auto_cast (rl.GetScreenWidth() -
+				auto_cast rl.MeasureTextEx(font, multiple_dices_value, 96, 1)[0]) /
+			2,
+			40,
+		},
+		96,
+		1,
+		rl.BLACK,
 	)
 
 	if rl.GuiButton({320, 200, 80, 80}, "Roll") {
