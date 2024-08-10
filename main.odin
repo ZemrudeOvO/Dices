@@ -37,7 +37,5 @@ main :: proc() {
 
 		draw_tab()
 		switch_tab()
-
-		rl.GuiButton({50, 50, 100, 100}, "ABCD")
 	}
 }
