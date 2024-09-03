@@ -25,6 +25,7 @@ main :: proc() {
 		count,
 	)
 	rl.GuiSetFont(font)
+	rl.GuiSetStyle(.DEFAULT, auto_cast rl.GuiDefaultProperty.TEXT_SIZE, 12)
 
 	rl.SetTargetFPS(60)
 
